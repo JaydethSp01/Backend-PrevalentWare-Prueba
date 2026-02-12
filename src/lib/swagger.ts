@@ -8,9 +8,17 @@ export const getApiDocs = () => {
       info: {
         title: "PrevalentWare API",
         version: "1.0.0",
-        description: "API REST para gestión de ingresos/egresos, usuarios y reportes.",
+        description:
+          "API REST para gestión de ingresos/egresos, usuarios y reportes.",
       },
-      servers: [{ url: process.env.BETTER_AUTH_URL ?? "http://localhost:8000" }],
+      servers: [
+        {
+          url: (process.env.BETTER_AUTH_URL ?? "http://localhost:8000").replace(
+            /\/api\/auth\/?$/,
+            "",
+          ),
+        },
+      ],
       components: {
         securitySchemes: {
           cookie: {
