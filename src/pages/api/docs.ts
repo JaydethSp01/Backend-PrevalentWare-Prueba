@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getApiDocs } from "@/lib/swagger";
 
-const baseUrl = process.env.BETTER_AUTH_URL ?? "http://localhost:8000";
+const rawBaseUrl = process.env.BETTER_AUTH_URL ?? "http://localhost:8000";
+const baseUrl = rawBaseUrl.replace(/\/api\/auth\/?$/, "");
 
 /**
  * GET /api/docs -> Swagger UI (HTML) o OpenAPI JSON si ?json=1
@@ -11,7 +12,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     res.setHeader("Allow", ["GET"]);
     return res.status(405).json({ error: "Method Not Allowed" });
   }
-  const wantsJson = req.query.json === "1" || req.headers.accept?.includes("application/json");
+  const wantsJson =
+    req.query.json === "1" || req.headers.accept?.includes("application/json");
 
   if (wantsJson) {
     const spec = getApiDocs();
