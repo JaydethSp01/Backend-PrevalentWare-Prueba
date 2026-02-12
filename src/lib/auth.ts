@@ -10,6 +10,13 @@ export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: baseUrl,
   trustedOrigins: [frontendUrl],
+  advanced: {},
+  cookie: {
+    extraCookieAttributes: {
+      sameSite: "none",
+      secure: true,
+    },
+  },
   user: {
     additionalFields: {
       role: {
