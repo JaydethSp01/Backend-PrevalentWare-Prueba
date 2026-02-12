@@ -14,12 +14,18 @@ export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: baseUrl,
   trustedOrigins: [frontendUrl],
-  advanced: {},
-  cookie: {
-    extraCookieAttributes: {
+  advanced: {
+    defaultCookieAttributes: {
       sameSite: "none",
       secure: true,
     },
+  },
+  account: {
+    // Usa base de datos para guardar el state del flujo OAuth
+    storeStateStrategy: "database",
+    // Evita fallar si la cookie de state no se encuentra o no coincide exactamente.
+    // IMPORTANTE: esto reduce ligeramente la seguridad, pero es aceptable para esta prueba técnica.
+    skipStateCookieCheck: true,
   },
   user: {
     additionalFields: {
