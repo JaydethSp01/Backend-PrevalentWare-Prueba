@@ -3,7 +3,11 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "@/infrastructure/database/prisma";
 
 const frontendUrl = process.env.FRONTEND_URL ?? "http://localhost:3000";
-const baseUrl = process.env.BETTER_AUTH_URL ?? "http://localhost:8000";
+
+// Normalizamos BETTER_AUTH_URL para que Better Auth reciba solo el origen
+// (https://backend-prevalentware-prueba.vercel.app) y deje el basePath por defecto (/api/auth).
+const rawBaseUrl = process.env.BETTER_AUTH_URL ?? "http://localhost:8000";
+const baseUrl = rawBaseUrl.replace(/\/api\/auth\/?$/, "");
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, { provider: "postgresql" }),
