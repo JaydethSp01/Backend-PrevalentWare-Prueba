@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getApiDocs } from "@/lib/swagger";
 
@@ -16,6 +18,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     req.query.json === "1" || req.headers.accept?.includes("application/json");
 
   if (wantsJson) {
+    // En producción servimos el fichero pre-generado public/openapi.json.
+    // En desarrollo, si no existe, caemos al generador en tiempo real.
+    const openapiPath = path.join(process.cwd(), "public", "openapi.json");
+    if (fs.existsSync(openapiPath)) {
+      const file = fs.readFileSync(openapiPath, "utf-8");
+      res.setHeader("Content-Type", "application/json");
+      return res.status(200).send(file);
+    }
     const spec = getApiDocs();
     res.setHeader("Content-Type", "application/json");
     return res.status(200).json(spec);
