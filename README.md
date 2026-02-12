@@ -74,6 +74,17 @@ Con el servidor en marcha:
 
 Todos los endpoints están documentados (parámetros, respuestas, seguridad por cookie de sesión).
 
+## Despliegue en Vercel
+
+1. En Vercel, crea un nuevo proyecto importando este repositorio (`Backend-PrevalentWare-Prueba`).
+2. En **Settings → Environment Variables**, configura todas las variables definidas en la sección anterior (`DATABASE_URL`, `DIRECT_URL`, `FRONTEND_URL`, `BETTER_AUTH_URL`, `BETTER_AUTH_SECRET`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, etc.), usando los valores de tu entorno.
+3. Deja la configuración por defecto de framework:
+   - Framework: **Next.js**
+   - Comando de build: `npm run build`
+   - Comando de start: `npm start`
+4. Haz clic en **Deploy**.  
+   Al finalizar, Vercel mostrará la URL pública del backend (por ejemplo `https://backend-prevalentware-prueba.vercel.app`).
+
 ## Estructura relevante
 
 ```
