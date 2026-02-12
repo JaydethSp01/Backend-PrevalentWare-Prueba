@@ -196,9 +196,10 @@ async function main() {
   console.log("Movimientos anteriores eliminados.");
 
   const userIds = userId2 ? [userId1, userId2] : [userId1];
+  const COP_RATE = 1000;
   const data = MOVIMIENTOS_REALISTAS.map((m, i) => ({
     concept: m.concept,
-    amount: Math.round(m.amount),
+    amount: Math.round(m.amount * COP_RATE),
     type: m.type,
     date: m.date,
     userId: userIds[i % userIds.length],
