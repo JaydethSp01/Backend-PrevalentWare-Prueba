@@ -9,11 +9,18 @@ const frontendUrl = process.env.FRONTEND_URL ?? "http://localhost:3000";
 const rawBaseUrl = process.env.BETTER_AUTH_URL ?? "http://localhost:8000";
 const baseUrl = rawBaseUrl.replace(/\/api\/auth\/?$/, "");
 
+const FIFTEEN_MINUTES = 60 * 15;
+const ONE_MINUTE = 60;
+
 export const auth = betterAuth({
   database: prismaAdapter(prisma, { provider: "postgresql" }),
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: baseUrl,
   trustedOrigins: [frontendUrl],
+  session: {
+    expiresIn: FIFTEEN_MINUTES,
+    updateAge: ONE_MINUTE,
+  },
   advanced: {
     defaultCookieAttributes: {
       sameSite: "none",
